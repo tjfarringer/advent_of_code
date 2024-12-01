@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	file, err := os.Open("/Users/talmadge.farringer/Documents/side_projects/advent_of_code/2023/puzzle_input/day_01_puzzle.txt")
+	file, err := os.Open("/Users/talmadge.farringer/Documents/side_projects/advent_of_code/2023/puzzleInput/day_01_puzzle.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
