@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"math"
 	"os"
@@ -20,7 +19,7 @@ import (
 func removeAtIndex(i int, slice []int) []int {
 	// Check if the index is out of bounds
 	if i < 0 || i >= len(slice) {
-		fmt.Println("Index out of bounds")
+		//fmt.Println("Index out of bounds")
 		// Return the original slice if index is invalid
 		return slice
 	}
@@ -79,7 +78,7 @@ func main() {
 			// Convert each string to an integer
 			num, err := strconv.Atoi(s)
 			if err != nil {
-				fmt.Println("Error converting string to integer:", err)
+				//fmt.Println("Error converting string to integer:", err)
 				continue
 			}
 			levelNums = append(levelNums, num)
@@ -100,27 +99,27 @@ func main() {
 		levelNums := reportInfo[0]
 		reportNum = levelNums[0]
 		// Has this report been transformed previously at the time of grabbing it?
-		log.Printf("Checking report: - %d.", reportNum)
+		//log.Printf("Checking report: - %d.", reportNum)
 		// Check each level -- start with 2 because position 0 is the report number
 		for i := 2; i < len(levelNums); i++ {
 			// diff of 1 is ok; diff of 3 is ok;
 			if math.Abs(float64(levelNums[i]-levelNums[i-1])) > 3 || math.Abs(float64(levelNums[i]-levelNums[i-1])) < 1 {
 				reportSafe = false
-				log.Printf("Report is not safe.  Floor - %d - isn't the right height diff from prev", i)
+				//log.Printf("Report is not safe.  Floor - %d - isn't the right height diff from prev", i)
 				if part2 {
 					reportInfo = part2Fncn(reportInfo, i, levelNums, reportTransformed, reportNum, reportStatus)
 				}
 				break
 			} else if (rollingLvlDiff < 0) && (levelNums[i]-levelNums[i-1]) > 0 {
 				reportSafe = false
-				log.Printf("Report is not safe.  Floor - %d - isn't always decreasing", i)
+				//log.Printf("Report is not safe.  Floor - %d - isn't always decreasing", i)
 				if part2 {
 					reportInfo = part2Fncn(reportInfo, i, levelNums, reportTransformed, reportNum, reportStatus)
 				}
 				break
 			} else if (rollingLvlDiff > 0) && (levelNums[i]-levelNums[i-1]) < 0 {
 				reportSafe = false
-				log.Printf("Report is not safe.  Floor - %d - isn't always increasing", i)
+				//log.Printf("Report is not safe.  Floor - %d - isn't always increasing", i)
 				if part2 {
 					reportInfo = part2Fncn(reportInfo, i, levelNums, reportTransformed, reportNum, reportStatus)
 				}
