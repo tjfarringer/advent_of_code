@@ -26,7 +26,7 @@ func mod(a, b int) int {
 func main() {
 	start := time.Now()
 
-	file, err := os.Open("puzzleInput/1.txt")
+	file, err := os.Open("1.txt")
 	if err != nil {
 		log.Fatal(err)
 	}
