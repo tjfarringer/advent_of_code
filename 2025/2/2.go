@@ -67,9 +67,6 @@ func main() {
 					// if subset sum and total sum are the same
 					// and the length of the number is divisible by the length of the subset
 					subsetSum := 0
-					if num == 111 {
-						fmt.Println("debug")
-					}
 					for pos := 0; pos < len(numStr)/2; pos++ {
 						subsetSum += int(numStr[pos] - '0')
 						if totalNumSum%subsetSum == 0 && len(numStr)%(pos+1) == 0 {
@@ -96,11 +93,3 @@ func main() {
 	fmt.Printf("Sum of invalid IDs -- part 2: %d\n", invalidSumP2)
 	fmt.Printf("Execution time: %s\n", elapsed)
 }
-
-// len = 4, pos = 0, curLen = 1, => estimate what the total sum // prod would be and then compare // ?
-
-// 123123 => sum:12, prod:36
-
-// sum all numbers in the value
-// incrementally add and see if you can cleanly divide.. ?
-// (total) / (prod-of-subset) * (num-subsets)
