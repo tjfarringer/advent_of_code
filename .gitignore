@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+
+# Puzzle input files (per Advent of Code's request to not share inputs)
+**/puzzleInput/
+**/*.txt
