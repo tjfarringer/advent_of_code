@@ -4,3 +4,5 @@
 # Puzzle input files (per Advent of Code's request to not share inputs)
 **/puzzleInput/
 **/*.txt
+
+*__debug_bin*
