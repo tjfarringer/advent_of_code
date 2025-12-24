@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -15,11 +16,8 @@ func main() {
 	start := time.Now()
 	part1Answer := 0
 	part2Answer := 0
-	problemLength := make(map[int]int)
 	numbers := make(map[int][]int)
-	// numbersP2 := make(map[int][]string)
 	operatorMap := make(map[int]rune)
-	operatorMapP2 := make(map[int]rune)
 
 	// open file
 	file, err := os.Open("6.txt")
@@ -71,9 +69,6 @@ func main() {
 	// Part 2:  Different way to compile the numbers...
 	// read file line by line
 	// After first scanner, seek back to start
-	problemPointer := 0
-	positionSum := 1
-	var lastLine string
 	file.Seek(0, 0)
 	scanner2 := bufio.NewScanner(file)
 	problemSpace := []string{}
@@ -81,51 +76,60 @@ func main() {
 		text := scanner2.Text()
 		problemSpace = append(problemSpace, text)
 	}
-	
-	for i := len(line) - 1; i >= 0; i-- {
-		char := string(line[i])
+	// Find problem operators
+	operators := strings.Fields(problemSpace[len(problemSpace)-1])
+	slices.Reverse(operators)
 
+	// Loop through all values in the line
+	problems := make(map[int][]int)
+	problemPointer := 0
+	problemString := ""
 
-
-	// Loop through and figure out how many positions each problem is
-	for i := 1; i < len(lastLine); i++ {
-		if string(lastLine[i]) == " " {
-			positionSum += 1
-			continue
-		} else if string(lastLine[i]) != " " {
-			// subtract 1 because we don't want to
-			// count the space between problems
-			problemLength[problemPointer] = (positionSum - 1)
-			positionSum = 1
+	for numIndex := len(problemSpace[0]) - 1; numIndex >= 0; numIndex-- {
+		allNotBlank := false
+		// Set string to the first val
+		problemString = string(problemSpace[0][numIndex])
+		if problemSpace[0][numIndex] != ' ' {
+			allNotBlank = true
+		}
+		// Start at 1 to skip the first line
+		// Compile the number
+		for subValIndex := 1; subValIndex < len(problemSpace)-1; subValIndex++ {
+			problemString += string(problemSpace[subValIndex][numIndex])
+			// if all values are blank then we move to the next problem
+			if problemSpace[subValIndex][numIndex] != ' ' {
+				allNotBlank = true
+			}
+		}
+		if allNotBlank {
+			num, err := strconv.Atoi(strings.TrimSpace(problemString))
+			if err != nil {
+				log.Fatal(err)
+			}
+			// Store number entry attached to the problem
+			problems[problemPointer] = append(problems[problemPointer], num)
+		} else {
+			// At this point we need to move onto the next problem
 			problemPointer++
 		}
 	}
 
-	// now compile the problems
-	file.Seek(0, 0)
-	scanner3 := bufio.NewScanner(file)
-	for scanner3.Scan() {
-		line := scanner3.Text()
-		if line == "" {
-			continue
-		}
-		for i := len(line) - 1; i >= 0; i-- {
-			char := string(line[i])
-			problemLen := problemLength[problemPointer-1]
-			if char == "+" {
-				operatorMapP2[problemPointer] = '+'
-			} else if char == "*" {
-				operatorMapP2[problemPointer] = '*'
-			} else {
-				// numbersP2[problemPointer][problemLen] = append(numbersP2[problemPointer][problemLen], char)
+	for problemNum, numbers := range problems {
+		operator := operators[problemNum]
+		var result int
+		if operator == "+" {
+			result = 0
+			for _, num := range numbers {
+				result += num
 			}
+		} else if operator == "*" {
+			result = 1
+			for _, num := range numbers {
+				result *= num
+			}
+		}
 
-			problemLen--
-			if problemLen < 0 {
-				problemPointer--
-				problemLen = problemLength[problemPointer-1]
-			}
-		}
+		part2Answer += result
 	}
 
 	log.Printf("Part 1 answer: %d", part1Answer)
